@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const greenSpaceSchema = mongoose.Schema({
-    id : {type: String, required: true},
     nom : {type: String, required: true, trim: true},
     latitude: {type: Number, required: true, trim: true},
     longitude : {type: Number, required: true, trim: true},

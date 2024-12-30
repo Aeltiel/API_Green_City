@@ -2,7 +2,8 @@ const GreenSpace = require("../Models/Green_Space_Model");
 const fs = require('fs');
 
 exports.createGreenSpace = (req, res, next) =>{
-    const gpObject = JSON.parse(req.body)
+    const gpObject = req.body;
+    console.log(gpObject);
     delete gpObject._id;
     const greenSpace = new GreenSpace({
         ...gpObject,
