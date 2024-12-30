@@ -8,3 +8,5 @@ router.get('/:id', greenSpaceControl.getOneGreenSpace);
 router.post('/', multer, greenSpaceControl.createGreenSpace);
 router.put('/:id', multer, greenSpaceControl.modifyGreenSpace);
 router.delete('/:id', greenSpaceControl.deleteGreenSpace);
+
+module.exports = router;
