@@ -25,28 +25,37 @@ exports.getAllGreenSpaces = (req, res, next) =>{
 
 exports.getOneGreenSpace = (req, res, next) =>{
     GreenSpace.findById(req.params.id)
+        .then(greenSpace => res.status(200).send(greenSpace))
+        .catch(error => res.status(404).json({ error }));
 }
 
 exports.modifyGreenSpace = (req, res, next) =>{
-    const greenSpaceId = req.params.id;
-    const gpObject = req.body
-
-    //Vérification en cas de nouvelle image
-    if(req.file){
-        const imageSpaceUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-        greenSpaceUpdates.imageSpaceUrl = imageSpaceUrl;
-    }
-
-    //update de l'espace vert
-    GreenSpace.findByIdAndUpdate(greenSpaceId, gpObject, { new: true })
-        .then(updatedGreenSpace => {
-            if (!updatedGreenSpace) {
-                return res.status(404).json({ message: 'Espace vert non trouvé' });
+    let greenSpaceObject;
+    GreenSpace.findById(req.params.id )
+        .then ((greenSpace) =>{
+            console.log("dans le .then pour supprimer l'image s'il y en a une",greenSpace);
+            if(req.file){
+                const filename = greenSpace.imageSpaceUrl.split("/images/")[1];
+                fs.unlink(`images/${filename}`,(error)=>{
+                    if (error) console.log(error)
+                })
+                greenSpaceObject = {
+                    ...req.body,
+                    imageSpaceUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+                }
+                console.log("création de l'objet après suppression de l'image",greenSpaceObject);
+            }else{
+                greenSpaceObject = { ...req.body };
             }
-            res.status(200).json({ message: 'Espace vert modifié !', greenSpace: updatedGreenSpace });
+
+            delete greenSpaceObject._id;
+            return GreenSpace.updateOne({ _id: req.params.id }, { ...greenSpaceObject, _id: req.params.id });
         })
-        .catch(error => res.status(400).json({ message: error.message }));
+        .then(() => res.status(200).json({ message: "Espace vert modifié !" }))
+        .catch(error => res.status(500).json({message: "Erreur lors de la modification de l'espace vert" + error.message}));
+            
 }
+
 
 exports.deleteGreenSpace = (req, res, next) =>{
     GreenSpace.findById(req.params.id)
