@@ -11,7 +11,7 @@ const greenSpaceSchema = mongoose.Schema({
       {
         //le type mongoose.Schema.Types.ObjectId est une référence vers un document dans une autre collection
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Plantes",
+        ref: "plantes",
       },
     ],
   },
