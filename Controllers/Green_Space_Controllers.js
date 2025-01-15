@@ -3,7 +3,7 @@ const fs = require('fs');
 
 exports.createGreenSpace = (req, res, next) =>{
     const gpObject = req.body;
-    console.log(gpObject);
+    
     delete gpObject._id;
     const greenSpace = new GreenSpace({
         ...gpObject,
@@ -33,7 +33,7 @@ exports.modifyGreenSpace = (req, res, next) =>{
     let greenSpaceObject;
     GreenSpace.findById(req.params.id )
         .then ((greenSpace) =>{
-            console.log("dans le .then pour supprimer l'image s'il y en a une",greenSpace);
+            
             if(req.file){
                 const filename = greenSpace.imageSpaceUrl.split("/images/")[1];
                 fs.unlink(`images/${filename}`,(error)=>{
@@ -43,7 +43,7 @@ exports.modifyGreenSpace = (req, res, next) =>{
                     ...req.body,
                     imageSpaceUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
                 }
-                console.log("création de l'objet après suppression de l'image",greenSpaceObject);
+        
             }else{
                 greenSpaceObject = { ...req.body };
             }
