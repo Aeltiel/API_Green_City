@@ -4,6 +4,7 @@ const dotenv = require("dotenv").config();
 const app = express();
 const path = require('path');
 const greenSpaceRoutes = require('./Routes/Green_Space_Route');
+const plantesRoutes = require('./Routes/Plante_Route');
 
 const connect = process.env.CONNECT;
 mongoose
@@ -34,6 +35,7 @@ app.use((req, res, next) => {
 
 
 app.use('/api/greenSpace', greenSpaceRoutes);
+app.use('/api/plantes', plantesRoutes);
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 module.exports = app;
