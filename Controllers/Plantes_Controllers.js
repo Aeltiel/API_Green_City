@@ -1,4 +1,4 @@
-const Plante = require('../Models/Plantes_Models');
+const Plante = require('../Models/Plantes_Model');
 const fs = require('fs');
 
 exports.createPlante = (req, res, next) =>{
