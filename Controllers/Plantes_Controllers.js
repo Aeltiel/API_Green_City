@@ -22,6 +22,7 @@ exports.getAllPlantes = (req, res, next) =>{
     .catch(error => res.status(400).json({ error }));
 };
 
+
 exports.getOnePlante = (req, res, next) =>{
     Plante.findById(req.params.id)
         .then(plante => res.status(200).send(plante))

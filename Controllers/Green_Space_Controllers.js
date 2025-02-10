@@ -25,6 +25,7 @@ exports.getAllGreenSpaces = (req, res, next) =>{
 
 exports.getOneGreenSpace = (req, res, next) =>{
     GreenSpace.findById(req.params.id)
+        .populate('plantes')
         .then(greenSpace => res.status(200).send(greenSpace))
         .catch(error => res.status(404).json({ error }));
 }
